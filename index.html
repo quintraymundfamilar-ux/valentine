@@ -40,14 +40,21 @@
       border-radius: 50px;
       cursor: pointer;
       font-weight: 600;
-      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
       box-shadow: 0 4px 10px rgba(255,105,180,0.2);
       color: white;
       outline: none;
+      transition: transform 0.3s ease, box-shadow 0.3s ease; /* no top/left transition */
+      position: absolute;
+      top: 0;
+      left: 0;
     }
 
     #yesBtn {
       background: linear-gradient(135deg, #ff5aa6, #ff85c1);
+      position: relative;
+      transform: none;
+      top: auto;
+      left: auto;
     }
 
     #yesBtn:hover {
@@ -55,14 +62,16 @@
       box-shadow: 0 6px 15px rgba(255,85,160,0.3);
     }
 
-#noBtn {
-  background: linear-gradient(135deg, #ffc1dc, #ffb3d9);
-  color: #99004d;
-  position: absolute;
-  padding: 6px 22px;
-  /* ONLY animate scale and box-shadow, NOT top/left */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+    #noBtn {
+      background: linear-gradient(135deg, #ffc1dc, #ffb3d9);
+      color: #99004d;
+      padding: 6px 22px;
+    }
+
+    #noBtn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 12px rgba(255,179,217,0.3);
+    }
 
     /* --- GIF container --- */
     .gif-container img {
@@ -138,12 +147,16 @@
     const yesBox = document.getElementById("yesBox");
     const yesAudio = document.getElementById("yesAudio");
 
-    // Make No button slide smoothly
+    // Make No button move smoothly using transform
     noBtn.addEventListener("mouseover", () => {
-      const x = Math.random() * (window.innerWidth - 120);
-      const y = Math.random() * (window.innerHeight - 60);
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
+      const containerRect = questionBox.getBoundingClientRect();
+      const maxX = containerRect.width - noBtn.offsetWidth - 10;
+      const maxY = containerRect.height - noBtn.offsetHeight - 10;
+
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
     });
 
     // Yes button click
@@ -182,4 +195,3 @@
 
 </body>
 </html>
-
