@@ -55,19 +55,18 @@
       box-shadow: 0 6px 15px rgba(255,85,160,0.3);
     }
 
-    #noBtn {
-      background: linear-gradient(135deg, #ffc1dc, #ffb3d9);
-      color: #99004d;
-      position: absolute;
-      padding: 6px 22px;
-      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-    }
-
-    #noBtn:hover {
-      transform: scale(1.08);
-      box-shadow: 0 6px 12px rgba(255,179,217,0.3);
-    }
-
+  noBtn.addEventListener("mouseover", () => {
+  const containerRect = questionBox.getBoundingClientRect();
+  
+  const maxX = containerRect.width - noBtn.offsetWidth - 10; // keep inside container
+  const maxY = containerRect.height - noBtn.offsetHeight - 10;
+  
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+  
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+});
     /* --- GIF container --- */
     .gif-container img {
       max-width: 200px;
