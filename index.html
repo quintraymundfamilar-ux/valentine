@@ -4,77 +4,153 @@
   <meta charset="UTF-8">
   <title>Will You Be My Valentine?</title>
   <style>
+    /* --- Background and body --- */
     body {
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* Pink gradient background */
-  background: linear-gradient(135deg, #ffc1cc, #ff9abf, #ff6fa1);
-  font-family: 'Arial', sans-serif;
-}
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ffc1cc, #ff9abf, #ff6fa1);
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+    }
 
-.container {
-  text-align: center;
-  background: #ffe6f0; /* soft pink container */
-  padding: 30px;
-  border-radius: 25px;
-  box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3); /* pink shadow */
-  position: relative;
-}
+    /* --- Container card --- */
+    .container {
+      text-align: center;
+      background: #ffe6f0;
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+      position: relative;
+      z-index: 1;
+    }
 
-h1 {
-  color: #ff1a75; /* brighter pink for heading */
-}
+    h1 {
+      color: #ff1a75;
+    }
 
-#yesBtn {
-  background-color: #ff4da6; /* pink button */
-  color: white;
-}
+    /* --- Buttons --- */
+    button {
+      font-size: 18px;
+      padding: 12px 28px;
+      margin: 10px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
 
-#noBtn {
-  background-color: #ffb3d9; /* lighter pink for No */
-  color: #99004d;
-  position: absolute;
-}
+    #yesBtn {
+      background-color: #ff4da6;
+      color: white;
+    }
+
+    #yesBtn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 10px 20px rgba(255,77,166,0.4);
+    }
+
+    #noBtn {
+      background-color: #ffb3d9;
+      color: #99004d;
+      position: absolute;
+      padding: 10px 22px;
+    }
+
+    #noBtn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 16px rgba(255,179,217,0.4);
+    }
+
     .hidden {
       display: none;
+    }
+
+    /* --- GIF container --- */
+    .gif-container img {
+      max-width: 200px;
+      margin: 10px;
+      border-radius: 15px;
+    }
+
+    /* --- Floating hearts --- */
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: url('https://i.imgur.com/1o3R9cO.png') no-repeat center/contain;
+      pointer-events: none;
+      animation: floatUp linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-600px) scale(1.5); opacity: 0; }
     }
   </style>
 </head>
 <body>
 
+  <!-- First page -->
   <div class="container" id="questionBox">
     <h1>Will you be my Valentine? 💖</h1>
     <button id="yesBtn">Yes 💕</button>
     <button id="noBtn">No 🙄</button>
   </div>
 
+  <!-- Second page -->
   <div class="container hidden" id="yesBox">
     <h1>YAY!!! 💘🥰</h1>
     <p>You just made my day 💖</p>
-    <p>Happy Valentine’s Day!</p>
+    <div class="gif-container">
+      <img src="https://media.giphy.com/media/l0MYC0LajbaPoEADu/giphy.gif" alt="Cute heart GIF">
+      <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="Love GIF">
+    </div>
   </div>
+
+  <!-- Audio -->
+  <audio id="yesAudio">
+    <source src="your-audio-file.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
 
   <script>
     const noBtn = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
     const questionBox = document.getElementById("questionBox");
     const yesBox = document.getElementById("yesBox");
+    const yesAudio = document.getElementById("yesAudio");
 
+    // Make No button dodge
     noBtn.addEventListener("mouseover", () => {
-      const x = Math.random() * (window.innerWidth - 100);
-      const y = Math.random() * (window.innerHeight - 50);
+      const x = Math.random() * (window.innerWidth - 120);
+      const y = Math.random() * (window.innerHeight - 60);
       noBtn.style.left = x + "px";
       noBtn.style.top = y + "px";
     });
 
+    // Yes button click
     yesBtn.addEventListener("click", () => {
       questionBox.classList.add("hidden");
       yesBox.classList.remove("hidden");
+      yesAudio.play();
+
+      // Create floating hearts
+      for(let i=0; i<30; i++){
+        let heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.style.left = Math.random()*window.innerWidth + 'px';
+        heart.style.animationDuration = 3 + Math.random()*2 + 's';
+        document.body.appendChild(heart);
+        setTimeout(()=>{ heart.remove() }, 5000);
+      }
     });
   </script>
 
 </body>
 </html>
+
