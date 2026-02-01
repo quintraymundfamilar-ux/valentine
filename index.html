@@ -5,46 +5,39 @@
   <title>Will You Be My Valentine?</title>
   <style>
     body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      font-family: Arial, sans-serif;
-    }
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Pink gradient background */
+  background: linear-gradient(135deg, #ffc1cc, #ff9abf, #ff6fa1);
+  font-family: 'Arial', sans-serif;
+}
 
-    .container {
-      text-align: center;
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
+.container {
+  text-align: center;
+  background: #ffe6f0; /* soft pink container */
+  padding: 30px;
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3); /* pink shadow */
+  position: relative;
+}
 
-    h1 {
-      color: #ff4d6d;
-    }
+h1 {
+  color: #ff1a75; /* brighter pink for heading */
+}
 
-    button {
-      font-size: 18px;
-      padding: 12px 24px;
-      margin: 10px;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-    }
+#yesBtn {
+  background-color: #ff4da6; /* pink button */
+  color: white;
+}
 
-    #yesBtn {
-      background-color: #ff4d6d;
-      color: white;
-    }
-
-    #noBtn {
-      background-color: #ccc;
-      position: absolute;
-    }
-
+#noBtn {
+  background-color: #ffb3d9; /* lighter pink for No */
+  color: #99004d;
+  position: absolute;
+}
     .hidden {
       display: none;
     }
