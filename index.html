@@ -17,45 +17,84 @@
     }
 
     /* --- Container card --- */
- button {
-  font-size: 15px;             /* slightly smaller font */
-  padding: 8px 28px;           /* thin top/bottom, wide sides */
-  margin: 10px;
-  border: none;
-  border-radius: 50px;         /* fully pill-shaped */
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.25s ease;
-  box-shadow: 0 4px 10px rgba(255,105,180,0.2); /* soft shadow */
-  color: white;
-  outline: none;
-}
+    .container {
+      text-align: center;
+      background: #ffe6f0;
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+      position: relative;
+      z-index: 1;
+    }
 
-#yesBtn {
-  background: linear-gradient(135deg, #ff5aa6, #ff85c1); /* soft pink gradient */
-}
+    h1 {
+      color: #ff1a75;
+    }
 
-#yesBtn:hover {
-  transform: scale(1.08);      /* slight pop */
-  box-shadow: 0 6px 15px rgba(255,85,160,0.3); /* soft hover shadow */
-}
+    /* --- Buttons --- */
+    button {
+      font-size: 15px;
+      padding: 8px 28px;
+      margin: 10px;
+      border: none;
+      border-radius: 50px; /* fully pill-shaped */
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* smooth/bouncy transition */
+      box-shadow: 0 4px 10px rgba(255,105,180,0.2);
+      color: white;
+      outline: none;
+    }
 
-#noBtn {
-  background: linear-gradient(135deg, #ffc1dc, #ffb3d9); /* lighter pink */
-  color: #99004d;
-  position: absolute;
-  padding: 6px 22px;           /* smaller than Yes button */
-}
+    #yesBtn {
+      background: linear-gradient(135deg, #ff5aa6, #ff85c1);
+    }
 
-#noBtn:hover {
-  transform: scale(1.08);
-  box-shadow: 0 6px 12px rgba(255,179,217,0.3);
-}
+    #yesBtn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 15px rgba(255,85,160,0.3);
+    }
+
+    #noBtn {
+      background: linear-gradient(135deg, #ffc1dc, #ffb3d9);
+      color: #99004d;
+      position: absolute;
+      padding: 6px 22px;
+    }
+
+    #noBtn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 12px rgba(255,179,217,0.3);
+    }
+
+    .hidden {
+      display: none;
+    }
+
     /* --- GIF container --- */
     .gif-container img {
       max-width: 200px;
       margin: 10px;
       border-radius: 15px;
+    }
+
+    /* --- Fade animations --- */
+    .fade-out {
+      animation: fadeOut 0.8s forwards;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.8s forwards;
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     /* --- Floating hearts --- */
@@ -106,7 +145,7 @@
     const yesBox = document.getElementById("yesBox");
     const yesAudio = document.getElementById("yesAudio");
 
-    // Make No button dodge
+    // Make No button slide smoothly
     noBtn.addEventListener("mouseover", () => {
       const x = Math.random() * (window.innerWidth - 120);
       const y = Math.random() * (window.innerHeight - 60);
@@ -116,22 +155,39 @@
 
     // Yes button click
     yesBtn.addEventListener("click", () => {
-      questionBox.classList.add("hidden");
-      yesBox.classList.remove("hidden");
-      yesAudio.play();
+      // Fade out first page
+      questionBox.classList.add("fade-out");
 
-      // Create floating hearts
-      for(let i=0; i<30; i++){
-        let heart = document.createElement('div');
-        heart.className = 'heart';
-        heart.style.left = Math.random()*window.innerWidth + 'px';
-        heart.style.animationDuration = 3 + Math.random()*2 + 's';
-        document.body.appendChild(heart);
-        setTimeout(()=>{ heart.remove() }, 5000);
-      }
+      setTimeout(() => {
+        questionBox.classList.add("hidden");
+        questionBox.classList.remove("fade-out");
+
+        // Show second page with fade-in
+        yesBox.classList.remove("hidden");
+        yesBox.classList.add("fade-in");
+
+        // Play audio
+        yesAudio.play();
+
+        setTimeout(() => {
+          yesBox.classList.remove("fade-in");
+        }, 800);
+
+        // Floating hearts
+        for(let i=0; i<30; i++){
+          let heart = document.createElement('div');
+          heart.className = 'heart';
+          heart.style.left = Math.random()*window.innerWidth + 'px';
+          heart.style.animationDuration = 3 + Math.random()*2 + 's';
+          document.body.appendChild(heart);
+          setTimeout(()=>{ heart.remove() }, 5000);
+        }
+
+      }, 800); // Wait for fade-out
     });
   </script>
 
 </body>
 </html>
+
 
