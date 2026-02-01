@@ -17,59 +17,40 @@
     }
 
     /* --- Container card --- */
-    .container {
-      text-align: center;
-      background: #ffe6f0;
-      padding: 30px;
-      border-radius: 25px;
-      box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
-      position: relative;
-      z-index: 1;
-    }
+ button {
+  font-size: 15px;             /* slightly smaller font */
+  padding: 8px 28px;           /* thin top/bottom, wide sides */
+  margin: 10px;
+  border: none;
+  border-radius: 50px;         /* fully pill-shaped */
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 10px rgba(255,105,180,0.2); /* soft shadow */
+  color: white;
+  outline: none;
+}
 
-    h1 {
-      color: #ff1a75;
-    }
+#yesBtn {
+  background: linear-gradient(135deg, #ff5aa6, #ff85c1); /* soft pink gradient */
+}
 
-    /* --- Buttons --- */
-    button {
-      font-size: 18px;
-      padding: 12px 28px;
-      margin: 10px;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: all 0.3s ease;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-    }
+#yesBtn:hover {
+  transform: scale(1.08);      /* slight pop */
+  box-shadow: 0 6px 15px rgba(255,85,160,0.3); /* soft hover shadow */
+}
 
-    #yesBtn {
-      background-color: #ff4da6;
-      color: white;
-    }
+#noBtn {
+  background: linear-gradient(135deg, #ffc1dc, #ffb3d9); /* lighter pink */
+  color: #99004d;
+  position: absolute;
+  padding: 6px 22px;           /* smaller than Yes button */
+}
 
-    #yesBtn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 10px 20px rgba(255,77,166,0.4);
-    }
-
-    #noBtn {
-      background-color: #ffb3d9;
-      color: #99004d;
-      position: absolute;
-      padding: 10px 22px;
-    }
-
-    #noBtn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 8px 16px rgba(255,179,217,0.4);
-    }
-
-    .hidden {
-      display: none;
-    }
-
+#noBtn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 12px rgba(255,179,217,0.3);
+}
     /* --- GIF container --- */
     .gif-container img {
       max-width: 200px;
