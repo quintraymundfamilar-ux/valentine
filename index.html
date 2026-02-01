@@ -62,15 +62,17 @@
       box-shadow: 0 6px 15px rgba(255,85,160,0.3);
     }
 
-    #noBtn {
+   #noBtn {
   background: linear-gradient(135deg, #ffc1dc, #ffb3d9);
   color: #99004d;
   padding: 6px 22px;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 50%;    /* center vertically initially */
+  left: 50%;   /* center horizontally initially */
+  transform: translate(-50%, -50%); /* center the button */
   transition: transform 0.5s ease; /* smooth movement */
 }
+
 
     #noBtn:hover {
       transform: scale(1.08);
@@ -152,16 +154,19 @@
     const yesAudio = document.getElementById("yesAudio");
 
     // Make No button move smoothly using transform
-    noBtn.addEventListener("mouseover", () => {
-      const containerRect = questionBox.getBoundingClientRect();
-      const maxX = containerRect.width - noBtn.offsetWidth - 10;
-      const maxY = containerRect.height - noBtn.offsetHeight - 10;
+   noBtn.addEventListener("mouseover", () => {
+  const containerRect = questionBox.getBoundingClientRect();
+  const maxX = containerRect.width - noBtn.offsetWidth - 10;
+  const maxY = containerRect.height - noBtn.offsetHeight - 10;
 
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
+  // Random position relative to container
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
 
-      noBtn.style.transform = `translate(${x}px, ${y}px)`;
-    });
+  // Move relative to initial center
+  noBtn.style.transform = `translate(${x - containerRect.width/2 + noBtn.offsetWidth/2}px, ${y - containerRect.height/2 + noBtn.offsetHeight/2}px)`;
+});
+
 
     // Yes button click
     yesBtn.addEventListener("click", () => {
