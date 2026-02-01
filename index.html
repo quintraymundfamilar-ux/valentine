@@ -57,27 +57,20 @@
       left: auto;
     }
 
-    #yesBtn:hover {
-      transform: scale(1.08);
-      box-shadow: 0 6px 15px rgba(255,85,160,0.3);
-    }
+    ##yesBtn {
+  background: linear-gradient(135deg, #ff5aa6, #ff85c1);
+  position: relative;
+}
 
-   #noBtn {
+#noBtn {
   background: linear-gradient(135deg, #ffc1dc, #ffb3d9);
   color: #99004d;
   padding: 6px 22px;
-  position: absolute;
-  top: 50%;    /* center vertically initially */
-  left: 50%;   /* center horizontally initially */
-  transform: translate(-50%, -50%); /* center the button */
+  position: relative; /* now flows beside Yes */
+  margin-left: 10px;  /* small gap beside Yes */
   transition: transform 0.5s ease; /* smooth movement */
 }
 
-
-    #noBtn:hover {
-      transform: scale(1.08);
-      box-shadow: 0 6px 12px rgba(255,179,217,0.3);
-    }
 
     /* --- GIF container --- */
     .gif-container img {
@@ -154,17 +147,26 @@
     const yesAudio = document.getElementById("yesAudio");
 
     // Make No button move smoothly using transform
-   noBtn.addEventListener("mouseover", () => {
-  const containerRect = questionBox.getBoundingClientRect();
-  const maxX = containerRect.width - noBtn.offsetWidth - 10;
-  const maxY = containerRect.height - noBtn.offsetHeight - 10;
+ let moveCount = 0; // counts number of times No button moved
+const maxMoves = 3; // after 3 moves, No disappears
 
-  // Random position relative to container
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
+noBtn.addEventListener("mouseover", () => {
+  if (moveCount < maxMoves) {
+    const containerRect = questionBox.getBoundingClientRect();
+    const maxX = containerRect.width - noBtn.offsetWidth - 10;
+    const maxY = containerRect.height - noBtn.offsetHeight - 10;
 
-  // Move relative to initial center
-  noBtn.style.transform = `translate(${x - containerRect.width/2 + noBtn.offsetWidth/2}px, ${y - containerRect.height/2 + noBtn.offsetHeight/2}px)`;
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    // Move using transform relative to its current position
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+    moveCount++;
+  } else {
+    // After maxMoves, hide the No button
+    noBtn.style.display = "none";
+  }
 });
 
 
