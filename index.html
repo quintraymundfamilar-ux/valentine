@@ -168,28 +168,30 @@
     const yesAudio = document.getElementById("yesAudio");
 
     // --- No button movement ---
-   let moves = 0;
-const maxMoves = 5;
+  let moves = 0;
+const maxMoves = 5; // how many times No moves before disappearing
 
 noBtn.addEventListener("mouseover", () => {
   if (moves < maxMoves) {
-    const parentRect = noBtn.parentElement.getBoundingClientRect();
+    // Get viewport dimensions
+    const maxX = window.innerWidth - noBtn.offsetWidth;
+    const maxY = window.innerHeight - noBtn.offsetHeight;
 
-    // Increase the range: allow movement almost anywhere inside container
-    const moveRangeX = parentRect.width * 1.2; // 120% of container width
-    const moveRangeY = parentRect.height * 1.2; // 120% of container height
+    // Random position anywhere on the screen
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
 
-    const x = Math.random() * moveRangeX - noBtn.offsetWidth / 2;
-    const y = Math.random() * moveRangeY - noBtn.offsetHeight / 2;
-
-    noBtn.style.transition = "transform 0.5s ease"; // smooth sliding
+    // Smooth movement
+    noBtn.style.transition = "transform 0.5s ease";
+    noBtn.style.position = "fixed"; // position relative to viewport
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
 
     moves++;
   } else {
-    noBtn.style.display = "none"; // disappear after maxMoves
+    noBtn.style.display = "none"; // disappears after maxMoves
   }
 });
+
     // --- Yes button click ---
     yesBtn.addEventListener("click", () => {
       firstPage.classList.add("fade-out");
