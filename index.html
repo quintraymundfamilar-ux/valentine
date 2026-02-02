@@ -169,46 +169,27 @@
 
     // --- No button movement ---
    let moves = 0;
-const maxMoves = 5; // now moves more times
-
-let targetX = 0;
-let targetY = 0;
-let currentX = 0;
-let currentY = 0;
-let moving = false;
-
-function animateNoButton() {
-  // Move 10% of the distance each frame for smooth motion
-  currentX += (targetX - currentX) * 0.1;
-  currentY += (targetY - currentY) * 0.1;
-
-  noBtn.style.transform = `translate(${currentX}px, ${currentY}px)`;
-
-  if (Math.abs(currentX - targetX) > 0.5 || Math.abs(currentY - targetY) > 0.5) {
-    requestAnimationFrame(animateNoButton);
-  } else {
-    moving = false; // reached target
-  }
-}
+const maxMoves = 5;
 
 noBtn.addEventListener("mouseover", () => {
-  if (moves < maxMoves && !moving) {
+  if (moves < maxMoves) {
     const parentRect = noBtn.parentElement.getBoundingClientRect();
-    const maxX = parentRect.width - noBtn.offsetWidth;
-    const maxY = parentRect.height - noBtn.offsetHeight;
 
-    targetX = Math.random() * maxX;
-    targetY = Math.random() * maxY;
+    // Increase the range: allow movement almost anywhere inside container
+    const moveRangeX = parentRect.width * 1.2; // 120% of container width
+    const moveRangeY = parentRect.height * 1.2; // 120% of container height
+
+    const x = Math.random() * moveRangeX - noBtn.offsetWidth / 2;
+    const y = Math.random() * moveRangeY - noBtn.offsetHeight / 2;
+
+    noBtn.style.transition = "transform 0.5s ease"; // smooth sliding
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
 
     moves++;
-    moving = true;
-    requestAnimationFrame(animateNoButton);
-  } else if (moves >= maxMoves) {
-    noBtn.style.display = "none"; // disappear after max moves
+  } else {
+    noBtn.style.display = "none"; // disappear after maxMoves
   }
 });
-
-
     // --- Yes button click ---
     yesBtn.addEventListener("click", () => {
       firstPage.classList.add("fade-out");
