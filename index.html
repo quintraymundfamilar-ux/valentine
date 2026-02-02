@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Will You Be My Valentine?</title>
   <style>
-    /* --- Background and body --- */
     body {
       margin: 0;
       height: 100vh;
@@ -16,14 +15,13 @@
       overflow: hidden;
     }
 
-    /* --- Container card --- */
     .container {
       text-align: center;
       background: #ffe6f0;
       padding: 30px;
       border-radius: 25px;
       box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
-      position: relative; /* needed for absolute No button */
+      position: relative;
       z-index: 1;
     }
 
@@ -31,168 +29,8 @@
       color: #ff1a75;
     }
 
-    /* --- Yes Button --- */
-    #yesBtn {
-      background: linear-gradient(135deg, #ff5aa6, #ff85c1);
-      padding: 8px 28px;
-      border: none;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 15px;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(255,105,180,0.2);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    #yesBtn:hover {
-      transform: scale(1.08);
-      box-shadow: 0 6px 15px rgba(255,85,160,0.3);
-    }
-
-    /* --- No Button --- */
-    #noBtn {
-      background: linear-gradient(135deg, #ffc1dc, #ffb3d9);
-      color: #99004d;
-      padding: 6px 22px;
-      position: absolute;
-      top: 50%;     /* vertically aligned with Yes */
-      left: 50%;    /* start next to Yes */
-      transform: translate(60px, -50%); /* offset to the right */
-      transition: transform 0.5s ease;
-      cursor: pointer;
-    }
-
-    #noBtn:hover {
-      transform: translate(60px, -50%) scale(1.05); /* optional slight scale on hover */
-    }
-
-    /* --- Second Page GIFs --- */
-    .gif-container img {
-      max-width: 200px;
-      margin: 10px;
-      border-radius: 15px;
-    }
-
-    /* --- Fade animations --- */
-    .fade-out {
-      animation: fadeOut 0.8s forwards;
-    }
-
-    .fade-in {
-      animation: fadeIn 0.8s forwards;
-    }
-
-    @keyframes fadeOut {
-      from { opacity: 1; }
-      to { opacity: 0; }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    /* --- Floating hearts --- */
-    .heart {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: url('https://i.imgur.com/1o3R9cO.png') no-repeat center/contain;
-      pointer-events: none;
-      animation: floatUp linear infinite;
-    }
-
-    @keyframes floatUp {
-      0% { transform: translateY(0) scale(1); opacity: 1; }
-      100% { transform: translateY(-600px) scale(1.5); opacity: 0; }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- First page -->
-  <div class="container" id="questionBox">
-    <h1>Will you be my Valentine? 💖</h1>
-    <button id="yesBtn">Yes 💕</button>
-    <button id="noBtn">No 🙄</button>
-  </div>
-
-  <!-- Second page (hidden by default) -->
-  <div class="container" id="yesBox" style="display: none;">
-    <h1>YAY!!! 💘🥰</h1>
-    <p>You just made my day 💖</p>
-    <div class="gif-container">
-      <img src="https://media.giphy.com/media/l0MYC0LajbaPoEADu/giphy.gif" alt="Cute heart GIF">
-      <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="Love GIF">
-    </div>
-  </div>
-
-  <!-- Audio -->
-  <audio id="yesAudio">
-    <source src="your-audio-file.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
-
-  <script>
-    const noBtn = document.getElementById("noBtn");
-    const yesBtn = document.getElementById("yesBtn");
-    const questionBox = document.getElementById("questionBox");
-    const yesBox = document.getElementById("yesBox");
-    const yesAudio = document.getElementById("yesAudio");
-
-    // --- No button movement ---
-    let moveCount = 0;
-    const maxMoves = 3; // number of moves before disappearing
-
-    noBtn.addEventListener("mouseover", () => {
-      if (moveCount < maxMoves) {
-        const containerRect = questionBox.getBoundingClientRect();
-        const maxX = containerRect.width - noBtn.offsetWidth - 10;
-        const maxY = containerRect.height - noBtn.offsetHeight - 10;
-
-        const x = Math.random() * maxX;
-        const y = Math.random() * maxY;
-
-        noBtn.style.transform = `translate(${x}px, ${y}px)`;
-        moveCount++;
-      } else {
-        noBtn.style.display = "none"; // disappear after moves
-      }
-    });
-
-    // --- Yes button click ---
-    yesBtn.addEventListener("click", () => {
-      // Fade out first page
-      questionBox.classList.add("fade-out");
-
-      setTimeout(() => {
-        questionBox.style.display = "none";
-        questionBox.classList.remove("fade-out");
-
-        // Show second page with fade-in
-        yesBox.style.display = "block";
-        yesBox.classList.add("fade-in");
-
-        // Play audio
-        yesAudio.play();
-
-        setTimeout(() => {
-          yesBox.classList.remove("fade-in");
-        }, 800);
-
-        // Floating hearts
-        for (let i = 0; i < 30; i++) {
-          let heart = document.createElement('div');
-          heart.className = 'heart';
-          heart.style.left = Math.random() * window.innerWidth + 'px';
-          heart.style.animationDuration = 3 + Math.random() * 2 + 's';
-          document.body.appendChild(heart);
-          setTimeout(() => { heart.remove() }, 5000);
-        }
-
-      }, 800); // Wait for fade-out
-    });
-  </script>
-
-</body>
-</html>
+    /* --- Button container to keep Yes & No side by side --- */
+    .button-row {
+      display: inline-flex;  /* horizontal row */
+      align-items: center;
+      ju
