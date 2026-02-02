@@ -1,224 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Will You Be My Valentine?</title>
-  <style>
-    /* --- Body & background --- */
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(135deg, #ffc1cc, #ff9abf, #ff6fa1);
-      overflow: hidden;
-    }
-
-    /* --- Card container --- */
-    .card {
-      text-align: center;
-      background: #ffe6f0;
-      padding: 30px;
-      border-radius: 25px;
-      box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
-      position: relative;
-      z-index: 1;
-    }
-
-    h1 {
-      color: #ff1a75;
-      margin-bottom: 25px;
-    }
-
-    /* --- Button row --- */
-    .button-row {
-      display: inline-flex;
-      align-items: center;
-      gap: 20px;
-      position: relative; /* for No button movement */
-    }
-
-    /* --- Yes button --- */
-    #yesBtn {
-      background: linear-gradient(135deg, #ff5aa6, #ff85c1);
-      padding: 10px 30px;
-      border-radius: 50px;
-      border: none;
-      font-weight: 600;
-      font-size: 16px;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(255,105,180,0.2);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      position: relative; /* stays in flow */
-      z-index: 2;
-    }
-
-    #yesBtn:hover {
-      transform: scale(1.08);
-      box-shadow: 0 6px 15px rgba(255,85,160,0.3);
-    }
-
-    /* --- No button --- */
-    #noBtn {
-      background: linear-gradient(135deg, #ffc1dc, #ffb3d9);
-      padding: 8px 24px;
-      border-radius: 50px;
-      border: none;
-      color: #99004d;
-      font-weight: 600;
-      cursor: pointer;
-      position: absolute; /* absolute inside row */
-      top: 0;
-      left: 100%; /* start to the right of Yes */
-      transform: translateX(0); /* initial offset */
-      transition: transform 0.5s ease; /* smooth movement */
-      z-index: 1;
-    }
-
-    #noBtn:hover {
-      transform: scale(1.05); /* optional small hover scale */
-    }
-
-    /* --- Second page --- */
-    #secondPage {
-      display: none; /* hidden initially */
-      text-align: center;
-      background: #ffe6f0;
-      padding: 30px;
-      border-radius: 25px;
-      box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
-      animation-duration: 0.8s;
-    }
-
-    .gif-container img {
-      max-width: 200px;
-      margin: 10px;
-      border-radius: 15px;
-    }
-
-    /* --- Fade animations --- */
-    .fade-out {
-      animation: fadeOut 0.8s forwards;
-    }
-
-    .fade-in {
-      animation: fadeIn 0.8s forwards;
-    }
-
-    @keyframes fadeOut {
-      from { opacity: 1; }
-      to { opacity: 0; }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    /* --- Floating hearts --- */
-    .heart {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: url('https://i.imgur.com/1o3R9cO.png') no-repeat center/contain;
-      pointer-events: none;
-      animation: floatUp linear infinite;
-    }
-
-    @keyframes floatUp {
-      0% { transform: translateY(0) scale(1); opacity: 1; }
-      100% { transform: translateY(-600px) scale(1.5); opacity: 0; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <div class="container">
+        <!-- Floating hearts background -->
+        <div class="hearts">
+            <i class="fas fa-heart"></i>
+            <i class="fas fa-heart"></i>
+            <i class="fas fa-heart"></i>
+            <i class="fas fa-heart"></i>
+            <i class="fas fa-heart"></i>
+            <i class="fas fa-heart"></i>
+            <i class="fas fa-heart"></i>
+            <i class="fas fa-heart"></i>
+        </div>
 
-  <!-- First page -->
-  <div class="card" id="firstPage">
-    <h1>Will you be my Valentine? 💖</h1>
-    <div class="button-row">
-      <button id="yesBtn">Yes 💕</button>
-      <button id="noBtn">No 🙄</button>
+        <!-- Main content -->
+        <div class="main-content">
+            <h1 class="title">Will You Be My Valentine?</h1>
+            
+            <!-- Animated heart -->
+            <div class="heart-container">
+                <div class="pulse-heart">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            
+            <!-- Countdown (optional) -->
+            <div class="countdown">
+                <p>Don't keep me waiting too long! <span id="timer">30</span>s</p>
+            </div>
+            
+            <!-- Buttons -->
+            <div class="buttons">
+                <button id="yes-btn" class="btn yes-btn">
+                    <i class="fas fa-heart"></i> YES! <i class="fas fa-heart"></i>
+                </button>
+                <button id="no-btn" class="btn no-btn">
+                    <i class="fas fa-times"></i> No
+                </button>
+            </div>
+            
+            <!-- Fun messages that appear -->
+            <div class="messages">
+                <p id="message"></p>
+            </div>
+        </div>
+        
+        <!-- Hidden audio for background music -->
+        <audio id="bg-music" loop>
+            <source src="audio.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        
+        <!-- Play music button -->
+        <button id="music-btn" class="music-btn">
+            <i class="fas fa-music"></i>
+        </button>
     </div>
-  </div>
 
-  <!-- Second page -->
-  <div class="card" id="secondPage">
-    <h1>YAY!!! 💘🥰</h1>
-    <p>You just made my day 💖</p>
-    <div class="gif-container">
-      <img src="https://media.giphy.com/media/l0MYC0LajbaPoEADu/giphy.gif" alt="Heart GIF">
-      <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="Love GIF">
-    </div>
-  </div>
-
-  <!-- Audio -->
-  <audio id="yesAudio">
-    <source src="your-audio-file.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
-
-  <script>
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const firstPage = document.getElementById("firstPage");
-    const secondPage = document.getElementById("secondPage");
-    const yesAudio = document.getElementById("yesAudio");
-
-    // --- No button movement ---
-  let moves = 0;
-const maxMoves = 5; // how many times No moves before disappearing
-
-noBtn.addEventListener("mouseover", () => {
-  if (moves < maxMoves) {
-    // Get viewport dimensions
-    const maxX = window.innerWidth - noBtn.offsetWidth;
-    const maxY = window.innerHeight - noBtn.offsetHeight;
-
-    // Random position anywhere on the screen
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
-
-    // Smooth movement
-    noBtn.style.transition = "transform 0.5s ease";
-    noBtn.style.position = "fixed"; // position relative to viewport
-    noBtn.style.transform = `translate(${x}px, ${y}px)`;
-
-    moves++;
-  } else {
-    noBtn.style.display = "none"; // disappears after maxMoves
-  }
-});
-
-    // --- Yes button click ---
-    yesBtn.addEventListener("click", () => {
-      firstPage.classList.add("fade-out");
-
-      setTimeout(() => {
-        firstPage.style.display = "none";
-        firstPage.classList.remove("fade-out");
-
-        secondPage.style.display = "block";
-        secondPage.classList.add("fade-in");
-
-        yesAudio.play();
-
-        setTimeout(() => secondPage.classList.remove("fade-in"), 800);
-
-        // Floating hearts
-        for (let i = 0; i < 30; i++) {
-          const heart = document.createElement("div");
-          heart.className = "heart";
-          heart.style.left = Math.random() * window.innerWidth + "px";
-          heart.style.animationDuration = 3 + Math.random() * 2 + "s";
-          document.body.appendChild(heart);
-          setTimeout(() => heart.remove(), 5000);
-        }
-      }, 800);
-    });
-  </script>
-
+    <script src="script.js"></script>
 </body>
 </html>
