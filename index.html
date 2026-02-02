@@ -168,24 +168,46 @@
     const yesAudio = document.getElementById("yesAudio");
 
     // --- No button movement ---
-    let moves = 0;
-    const maxMoves = 3;
+   let moves = 0;
+const maxMoves = 5; // now moves more times
 
-    noBtn.addEventListener("mouseover", () => {
-      if (moves < maxMoves) {
-        const parentRect = noBtn.parentElement.getBoundingClientRect();
-        const maxX = parentRect.width - noBtn.offsetWidth;
-        const maxY = parentRect.height - noBtn.offsetHeight;
+let targetX = 0;
+let targetY = 0;
+let currentX = 0;
+let currentY = 0;
+let moving = false;
 
-        const x = Math.random() * maxX;
-        const y = Math.random() * maxY;
+function animateNoButton() {
+  // Move 10% of the distance each frame for smooth motion
+  currentX += (targetX - currentX) * 0.1;
+  currentY += (targetY - currentY) * 0.1;
 
-        noBtn.style.transform = `translate(${x}px, ${y}px)`;
-        moves++;
-      } else {
-        noBtn.style.display = "none"; // disappears after max moves
-      }
-    });
+  noBtn.style.transform = `translate(${currentX}px, ${currentY}px)`;
+
+  if (Math.abs(currentX - targetX) > 0.5 || Math.abs(currentY - targetY) > 0.5) {
+    requestAnimationFrame(animateNoButton);
+  } else {
+    moving = false; // reached target
+  }
+}
+
+noBtn.addEventListener("mouseover", () => {
+  if (moves < maxMoves && !moving) {
+    const parentRect = noBtn.parentElement.getBoundingClientRect();
+    const maxX = parentRect.width - noBtn.offsetWidth;
+    const maxY = parentRect.height - noBtn.offsetHeight;
+
+    targetX = Math.random() * maxX;
+    targetY = Math.random() * maxY;
+
+    moves++;
+    moving = true;
+    requestAnimationFrame(animateNoButton);
+  } else if (moves >= maxMoves) {
+    noBtn.style.display = "none"; // disappear after max moves
+  }
+});
+
 
     // --- Yes button click ---
     yesBtn.addEventListener("click", () => {
