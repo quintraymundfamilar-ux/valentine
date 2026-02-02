@@ -17,64 +17,56 @@
     }
 
     /* --- Container card --- */
-   .container {
-  text-align: center;
-  background: #ffe6f0;
-  padding: 30px;
-  border-radius: 25px;
-  box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
-  position: relative; /* needed so absolute No button is relative to this */
-  z-index: 1;
-}
+    .container {
+      text-align: center;
+      background: #ffe6f0;
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+      position: relative; /* needed for absolute No button */
+      z-index: 1;
+    }
+
     h1 {
       color: #ff1a75;
     }
 
-    /* --- Buttons --- */
-    button {
-      font-size: 15px;
+    /* --- Yes Button --- */
+    #yesBtn {
+      background: linear-gradient(135deg, #ff5aa6, #ff85c1);
       padding: 8px 28px;
-      margin: 10px;
       border: none;
       border-radius: 50px;
-      cursor: pointer;
       font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
       box-shadow: 0 4px 10px rgba(255,105,180,0.2);
-      color: white;
-      outline: none;
-      transition: transform 0.3s ease, box-shadow 0.3s ease; /* no top/left transition */
-      position: absolute;
-      top: 0;
-      left: 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-   #yesBtn {
-  background: linear-gradient(135deg, #ff5aa6, #ff85c1);
-  padding: 8px 28px;
-  border: none;
-  border-radius: 50px;
-  font-weight: 600;
-  font-size: 15px;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(255,105,180,0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+    #yesBtn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 15px rgba(255,85,160,0.3);
+    }
 
-/* No button moves absolutely */
-#noBtn {
-  background: linear-gradient(135deg, #ffc1dc, #ffb3d9);
-  color: #99004d;
-  padding: 6px 22px;
-  position: absolute;  /* absolute inside container */
-  top: 50%;            /* vertically align with Yes */
-  left: 50%;           /* start next to Yes */
-  transform: translate(60px, -50%); /* offset right from Yes */
-  transition: transform 0.5s ease;
-}
+    /* --- No Button --- */
+    #noBtn {
+      background: linear-gradient(135deg, #ffc1dc, #ffb3d9);
+      color: #99004d;
+      padding: 6px 22px;
+      position: absolute;
+      top: 50%;     /* vertically aligned with Yes */
+      left: 50%;    /* start next to Yes */
+      transform: translate(60px, -50%); /* offset to the right */
+      transition: transform 0.5s ease;
+      cursor: pointer;
+    }
 
+    #noBtn:hover {
+      transform: translate(60px, -50%) scale(1.05); /* optional slight scale on hover */
+    }
 
-
-    /* --- GIF container --- */
+    /* --- Second Page GIFs --- */
     .gif-container img {
       max-width: 200px;
       margin: 10px;
@@ -148,37 +140,33 @@
     const yesBox = document.getElementById("yesBox");
     const yesAudio = document.getElementById("yesAudio");
 
-    // Make No button move smoothly using transform
- let moveCount = 0; // counts number of times No button moved
-const maxMoves = 3; // after 3 moves, No disappears
+    // --- No button movement ---
+    let moveCount = 0;
+    const maxMoves = 3; // number of moves before disappearing
 
-noBtn.addEventListener("mouseover", () => {
-  if (moveCount < maxMoves) {
-    const containerRect = questionBox.getBoundingClientRect();
-    const maxX = containerRect.width - noBtn.offsetWidth - 10;
-    const maxY = containerRect.height - noBtn.offsetHeight - 10;
+    noBtn.addEventListener("mouseover", () => {
+      if (moveCount < maxMoves) {
+        const containerRect = questionBox.getBoundingClientRect();
+        const maxX = containerRect.width - noBtn.offsetWidth - 10;
+        const maxY = containerRect.height - noBtn.offsetHeight - 10;
 
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
+        const x = Math.random() * maxX;
+        const y = Math.random() * maxY;
 
-    // Move using transform relative to its current position
-    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+        noBtn.style.transform = `translate(${x}px, ${y}px)`;
+        moveCount++;
+      } else {
+        noBtn.style.display = "none"; // disappear after moves
+      }
+    });
 
-    moveCount++;
-  } else {
-    // After maxMoves, hide the No button
-    noBtn.style.display = "none";
-  }
-});
-
-
-    // Yes button click
+    // --- Yes button click ---
     yesBtn.addEventListener("click", () => {
       // Fade out first page
       questionBox.classList.add("fade-out");
 
       setTimeout(() => {
-        questionBox.style.display = "none"; // hide first page
+        questionBox.style.display = "none";
         questionBox.classList.remove("fade-out");
 
         // Show second page with fade-in
@@ -193,7 +181,7 @@ noBtn.addEventListener("mouseover", () => {
         }, 800);
 
         // Floating hearts
-        for(let i=0; i<30; i++){
+        for (let i = 0; i < 30; i++) {
           let heart = document.createElement('div');
           heart.className = 'heart';
           heart.style.left = Math.random() * window.innerWidth + 'px';
