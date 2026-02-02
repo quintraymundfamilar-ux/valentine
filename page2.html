@@ -210,5 +210,20 @@
             createHearts();
         });
     </script>
+    <!-- Hidden background audio -->
+<audio id="background-audio" autoplay loop>
+    <source src="audio.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+
+<script>
+    // Optional: Ensure audio plays after user interaction
+    document.addEventListener('click', function() {
+        const audio = document.getElementById('background-audio');
+        audio.play().catch(e => console.log("Autoplay prevented:", e));
+    }, { once: true }); // Only try once
+</script>
+</body>
+</html>
 </body>
 </html>
