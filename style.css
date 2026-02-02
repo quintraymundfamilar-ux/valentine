@@ -1,0 +1,208 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.container {
+    text-align: center;
+    padding: 30px;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    max-width: 800px;
+    width: 90%;
+    position: relative;
+    z-index: 10;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Floating hearts background */
+.hearts {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.hearts i {
+    position: absolute;
+    color: rgba(255, 105, 180, 0.3);
+    font-size: 20px;
+    animation: float 15s infinite linear;
+}
+
+.hearts i:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+.hearts i:nth-child(2) { top: 20%; left: 80%; animation-delay: 1s; }
+.hearts i:nth-child(3) { top: 60%; left: 15%; animation-delay: 2s; }
+.hearts i:nth-child(4) { top: 80%; left: 70%; animation-delay: 3s; }
+.hearts i:nth-child(5) { top: 40%; left: 90%; animation-delay: 4s; }
+.hearts i:nth-child(6) { top: 90%; left: 40%; animation-delay: 5s; }
+.hearts i:nth-child(7) { top: 30%; left: 50%; animation-delay: 6s; }
+.hearts i:nth-child(8) { top: 70%; left: 30%; animation-delay: 7s; }
+
+.title {
+    font-size: 3.5rem;
+    color: #ff4d8d;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    animation: bounce 2s infinite;
+}
+
+.heart-container {
+    margin: 30px 0;
+}
+
+.pulse-heart {
+    display: inline-block;
+    font-size: 100px;
+    color: #ff4d8d;
+    animation: pulse 1.5s infinite;
+    text-shadow: 0 0 20px rgba(255, 77, 141, 0.5);
+}
+
+.countdown {
+    margin: 20px 0;
+    font-size: 1.2rem;
+    color: #ff6b9d;
+    font-weight: bold;
+}
+
+.countdown span {
+    color: #ff3366;
+    font-size: 1.5rem;
+}
+
+.buttons {
+    margin: 40px 0;
+    position: relative;
+    min-height: 120px;
+}
+
+.btn {
+    padding: 20px 50px;
+    font-size: 1.8rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    margin: 10px;
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.yes-btn {
+    background: linear-gradient(to right, #ff3366, #ff4d8d);
+    color: white;
+    border: 3px solid #ff3366;
+}
+
+.yes-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 20px rgba(255, 51, 102, 0.3);
+    background: linear-gradient(to right, #ff4d8d, #ff6699);
+}
+
+.no-btn {
+    background: linear-gradient(to right, #6c757d, #868e96);
+    color: white;
+    border: 3px solid #6c757d;
+    position: absolute;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.messages {
+    margin-top: 30px;
+    min-height: 60px;
+}
+
+#message {
+    font-size: 1.5rem;
+    color: #ff3366;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.music-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #ff3366;
+    color: white;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 51, 102, 0.3);
+    z-index: 100;
+    transition: all 0.3s ease;
+}
+
+.music-btn:hover {
+    transform: scale(1.1);
+    background: #ff4d8d;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+@keyframes float {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0.5; }
+    50% { transform: translateY(-100px) rotate(180deg); opacity: 1; }
+    100% { transform: translateY(-200px) rotate(360deg); opacity: 0; }
+}
+
+@keyframes confetti {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(100vh) rotate(360deg); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .title {
+        font-size: 2.5rem;
+    }
+    
+    .pulse-heart {
+        font-size: 70px;
+    }
+    
+    .btn {
+        padding: 15px 30px;
+        font-size: 1.5rem;
+    }
+}
