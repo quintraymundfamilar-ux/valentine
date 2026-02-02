@@ -4,18 +4,20 @@
   <meta charset="UTF-8">
   <title>Will You Be My Valentine?</title>
   <style>
+    /* --- Body & background --- */
     body {
       margin: 0;
       height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #ffc1cc, #ff9abf, #ff6fa1);
       font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #ffc1cc, #ff9abf, #ff6fa1);
       overflow: hidden;
     }
 
-    .container {
+    /* --- Card container --- */
+    .card {
       text-align: center;
       background: #ffe6f0;
       padding: 30px;
@@ -27,30 +29,30 @@
 
     h1 {
       color: #ff1a75;
+      margin-bottom: 25px;
     }
 
-    /* --- Button container to keep Yes & No side by side --- */
+    /* --- Button row --- */
     .button-row {
-      display: inline-flex;  /* horizontal row */
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      gap: 20px; /* space between buttons */
-      margin-top: 20px;
-      position: relative; /* for No button absolute movements */
+      gap: 20px;
+      position: relative; /* for No button movement */
     }
 
+    /* --- Yes button --- */
     #yesBtn {
       background: linear-gradient(135deg, #ff5aa6, #ff85c1);
-      padding: 8px 28px;
-      border: none;
+      padding: 10px 30px;
       border-radius: 50px;
+      border: none;
       font-weight: 600;
-      font-size: 15px;
+      font-size: 16px;
       cursor: pointer;
       box-shadow: 0 4px 10px rgba(255,105,180,0.2);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       position: relative; /* stays in flow */
-      z-index: 2; /* stay above No when overlapping */
+      z-index: 2;
     }
 
     #yesBtn:hover {
@@ -58,26 +60,38 @@
       box-shadow: 0 6px 15px rgba(255,85,160,0.3);
     }
 
+    /* --- No button --- */
     #noBtn {
       background: linear-gradient(135deg, #ffc1dc, #ffb3d9);
-      color: #99004d;
-      padding: 6px 22px;
-      border: none;
+      padding: 8px 24px;
       border-radius: 50px;
+      border: none;
+      color: #99004d;
+      font-weight: 600;
       cursor: pointer;
-      transition: transform 0.5s ease;
-      position: absolute; /* absolute inside button-row */
-      left: 100%;  /* start right beside Yes */
+      position: absolute; /* absolute inside row */
       top: 0;
-      transform: translateX(0); /* initial position */
+      left: 100%; /* start to the right of Yes */
+      transform: translateX(0); /* initial offset */
+      transition: transform 0.5s ease; /* smooth movement */
       z-index: 1;
     }
 
     #noBtn:hover {
-      transform: scale(1.05); /* small scale on hover */
+      transform: scale(1.05); /* optional small hover scale */
     }
 
-    /* --- Second Page GIFs --- */
+    /* --- Second page --- */
+    #secondPage {
+      display: none; /* hidden initially */
+      text-align: center;
+      background: #ffe6f0;
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+      animation-duration: 0.8s;
+    }
+
     .gif-container img {
       max-width: 200px;
       margin: 10px;
@@ -93,8 +107,15 @@
       animation: fadeIn 0.8s forwards;
     }
 
-    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
     /* --- Floating hearts --- */
     .heart {
@@ -115,7 +136,7 @@
 <body>
 
   <!-- First page -->
-  <div class="container" id="questionBox">
+  <div class="card" id="firstPage">
     <h1>Will you be my Valentine? 💖</h1>
     <div class="button-row">
       <button id="yesBtn">Yes 💕</button>
@@ -123,12 +144,12 @@
     </div>
   </div>
 
-  <!-- Second page (hidden by default) -->
-  <div class="container" id="yesBox" style="display: none;">
+  <!-- Second page -->
+  <div class="card" id="secondPage">
     <h1>YAY!!! 💘🥰</h1>
     <p>You just made my day 💖</p>
     <div class="gif-container">
-      <img src="https://media.giphy.com/media/l0MYC0LajbaPoEADu/giphy.gif" alt="Cute heart GIF">
+      <img src="https://media.giphy.com/media/l0MYC0LajbaPoEADu/giphy.gif" alt="Heart GIF">
       <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="Love GIF">
     </div>
   </div>
@@ -140,18 +161,18 @@
   </audio>
 
   <script>
-    const noBtn = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
-    const questionBox = document.getElementById("questionBox");
-    const yesBox = document.getElementById("yesBox");
+    const noBtn = document.getElementById("noBtn");
+    const firstPage = document.getElementById("firstPage");
+    const secondPage = document.getElementById("secondPage");
     const yesAudio = document.getElementById("yesAudio");
 
     // --- No button movement ---
-    let moveCount = 0;
-    const maxMoves = 3; // moves before disappearing
+    let moves = 0;
+    const maxMoves = 3;
 
     noBtn.addEventListener("mouseover", () => {
-      if (moveCount < maxMoves) {
+      if (moves < maxMoves) {
         const parentRect = noBtn.parentElement.getBoundingClientRect();
         const maxX = parentRect.width - noBtn.offsetWidth;
         const maxY = parentRect.height - noBtn.offsetHeight;
@@ -160,35 +181,36 @@
         const y = Math.random() * maxY;
 
         noBtn.style.transform = `translate(${x}px, ${y}px)`;
-        moveCount++;
+        moves++;
       } else {
-        noBtn.style.display = "none";
+        noBtn.style.display = "none"; // disappears after max moves
       }
     });
 
     // --- Yes button click ---
     yesBtn.addEventListener("click", () => {
-      questionBox.classList.add("fade-out");
-      setTimeout(() => {
-        questionBox.style.display = "none";
-        questionBox.classList.remove("fade-out");
+      firstPage.classList.add("fade-out");
 
-        yesBox.style.display = "block";
-        yesBox.classList.add("fade-in");
+      setTimeout(() => {
+        firstPage.style.display = "none";
+        firstPage.classList.remove("fade-out");
+
+        secondPage.style.display = "block";
+        secondPage.classList.add("fade-in");
+
         yesAudio.play();
 
-        setTimeout(() => { yesBox.classList.remove("fade-in"); }, 800);
+        setTimeout(() => secondPage.classList.remove("fade-in"), 800);
 
         // Floating hearts
         for (let i = 0; i < 30; i++) {
-          let heart = document.createElement('div');
-          heart.className = 'heart';
-          heart.style.left = Math.random() * window.innerWidth + 'px';
-          heart.style.animationDuration = 3 + Math.random() * 2 + 's';
+          const heart = document.createElement("div");
+          heart.className = "heart";
+          heart.style.left = Math.random() * window.innerWidth + "px";
+          heart.style.animationDuration = 3 + Math.random() * 2 + "s";
           document.body.appendChild(heart);
-          setTimeout(() => { heart.remove() }, 5000);
+          setTimeout(() => heart.remove(), 5000);
         }
-
       }, 800);
     });
   </script>
